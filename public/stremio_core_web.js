@@ -343,7 +343,7 @@ function _init() {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           if (typeof input === 'undefined') {
-            input = new URL('stremio_core_web_bg.wasm', importMeta.url);
+            input = new URL('stremio_core_web_bg.wasm', "https://monro93.github.io/stremio-web/public/");
           }
           imports = {};
           imports.wbg = {};
