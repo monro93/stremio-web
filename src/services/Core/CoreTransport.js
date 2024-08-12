@@ -3,9 +3,14 @@
 const EventEmitter = require('eventemitter3');
 const Bridge = require('@stremio/stremio-core-web/bridge');
 
+function getWorkerURL( url ) {
+    const content = `importScripts( "${ url }" );`;
+    return URL.createObjectURL( new Blob( [ content ], { type: "text/javascript" } ) );
+  }
+
 function CoreTransport(args) {
     const events = new EventEmitter();
-    const worker = new Worker(`${process.env.COMMIT_HASH}/scripts/worker.js`);
+    const worker = new Worker(getWorkerURL("https://raw.githubusercontent.com/monro93/stremio-web/development/public/worker.js"));
     const bridge = new Bridge(window, worker);
 
     window.onCoreEvent = ({ name, args }) => {
