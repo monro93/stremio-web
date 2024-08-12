@@ -36,13 +36,13 @@ i18n
 const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(<App />);
 
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+if (process.env.NODE_ENV === 'production2' && 'serviceWorker' in navigator) {
     function getWorkerURL( url ) {
         const content = `importScripts( "${ url }" );`;
         return URL.createObjectURL( new Blob( [ content ], { type: "text/javascript" } ) );
       }
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register(getWorkerURL("https://github.com/monro93/stremio-web/raw/development/public/service-worker.js"))
+        navigator.serviceWorker.register(getWorkerURL("https://monro93.github.io/stremio-web/public/service-worker.js"))
             .catch((registrationError) => {
                 console.error('SW registration failed: ', registrationError);
             });

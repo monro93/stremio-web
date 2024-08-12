@@ -10,7 +10,7 @@ function getWorkerURL( url ) {
 
 function CoreTransport(args) {
     const events = new EventEmitter();
-    const worker = new Worker(getWorkerURL("https://raw.githubusercontent.com/monro93/stremio-web/development/public/worker.js"));
+    const worker = new Worker(getWorkerURL("https://monro93.github.io/stremio-web/public/worker.js"));
     const bridge = new Bridge(window, worker);
 
     window.onCoreEvent = ({ name, args }) => {
