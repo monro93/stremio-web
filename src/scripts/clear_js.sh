@@ -1,8 +1,7 @@
 
-COMMIT=2462fae369e94361d486f35f56a98ab8797e26a1
-JS_FILE=./build/$COMMIT/scripts/main.js
+COMMIT_HASH=$(git rev-parse HEAD)
+JS_FILE=./build/$COMMIT_HASH/scripts/main.js
 echo "cleaning file $JS_FILE"
-LET=[a-zA-Z]
 sed -i ''  's/window\?\.PointerEvent/window.PointerEvent/g' $JS_FILE
 sed -i '' 's/window\?\.TouchEvent/window\.TouchEvent/g' $JS_FILE
 sed -i '' 's/window.PointerEvent\?\?null/(window.PointerEvent ? window.PointerEvent : null)/g' $JS_FILE
