@@ -6,14 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Stremio">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.43/polyfill.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="icon" type="image/x-icon" href="<%= htmlWebpackPlugin.options.faviconsPath %>/favicon.ico">
     <title>Stremio - Freedom to Stream</title>
     <%= htmlWebpackPlugin.tags.headTags %>
 </head>
 
 <body>
+    <div id="log" style="color:white"></div>
     <div id="app"></div>
     <%= htmlWebpackPlugin.tags.bodyTags %>
+    <script type="application/javascript">
+        const log = document.querySelector('#log');
+        ['log','debug','info','warn','error'].forEach(function (verb) {
+            console[verb] = (function (method, verb, log) {
+                return function () {
+                    method.apply(console, arguments);
+                    const msg = document.createElement('div');
+                    msg.classList.add(verb);
+                    msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
+                    log.appendChild(msg);
+                };
+            })(console[verb], verb, log);
+        });
+    </script>
     <script src="https://monro93.github.io/stremio-web/public/cast_sender.js"></script>
 </body>
 

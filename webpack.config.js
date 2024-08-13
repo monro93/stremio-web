@@ -1,11 +1,11 @@
 // Copyright (C) 2017-2023 Smart code 203358507
 
 const path = require('path');
-const { execSync } = require('child_process');
+const {execSync} = require('child_process');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -16,7 +16,7 @@ const COMMIT_HASH = execSync('git rev-parse HEAD').toString().trim();
 
 module.exports = (env, argv) => ({
     mode: argv.mode,
-    target: ["web", "es5"],
+    target: ['web', 'es5'],
     devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
     entry: {
         main: './src/index.js',
@@ -24,7 +24,8 @@ module.exports = (env, argv) => ({
     },
     output: {
         path: path.join(__dirname, 'build'),
-        filename: `${COMMIT_HASH}/scripts/[name].js`
+        filename: `${COMMIT_HASH}/scripts/[name].js`,
+        chunkFormat: 'module'
     },
     module: {
         rules: [
@@ -35,7 +36,14 @@ module.exports = (env, argv) => ({
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            '@babel/preset-env',
+                            [
+                                '@babel/preset-env',
+                                {
+                                    'targets': {
+                                        'chrome': '56'
+                                    }
+                                }
+                            ],
                             '@babel/preset-react'
                         ],
                         plugins: [
@@ -195,17 +203,17 @@ module.exports = (env, argv) => ({
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: ['*']
         }),
-        argv.mode === 'production' && 
-            new WorkboxPlugin.GenerateSW({
-                maximumFileSizeToCacheInBytes: 20000000,
-                clientsClaim: true,
-                skipWaiting: true
-            }),
+        argv.mode === 'production' &&
+        new WorkboxPlugin.GenerateSW({
+            maximumFileSizeToCacheInBytes: 20000000,
+            clientsClaim: true,
+            skipWaiting: true
+        }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'favicons', to: `${COMMIT_HASH}/favicons` },
-                { from: 'images', to: `${COMMIT_HASH}/images` },
-                { from: 'screenshots/*.webp', to: `${COMMIT_HASH}` },
+                {from: 'favicons', to: `${COMMIT_HASH}/favicons`},
+                {from: 'images', to: `${COMMIT_HASH}/images`},
+                {from: 'screenshots/*.webp', to: `${COMMIT_HASH}`},
             ]
         }),
         new MiniCssExtractPlugin({
@@ -250,7 +258,7 @@ module.exports = (env, argv) => ({
                     sizes: [256],
                 }
             ],
-            screenshots : [
+            screenshots: [
                 {
                     src: `${COMMIT_HASH}/screenshots/board_wide.webp`,
                     sizes: '1440x900',
