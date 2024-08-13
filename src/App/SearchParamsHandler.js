@@ -5,6 +5,13 @@ const isEqual = require('lodash.isequal');
 const { withCoreSuspender, useProfile, useToast } = require('stremio/common');
 const { useServices } = require('stremio/services');
 
+function fromEntries (iterable) {
+    return [...iterable].reduce((obj, [key, val]) => {
+        obj[key] = val;
+        return obj;
+    }, {});
+}
+
 const SearchParamsHandler = () => {
     const { core } = useServices();
     const profile = useProfile();
@@ -17,7 +24,7 @@ const SearchParamsHandler = () => {
         const { searchParams } = new URL(`${origin}${hash.replace('#', '')}${search}`);
 
         setSearchParams((previousSearchParams) => {
-            const currentSearchParams = Object.fromEntries(searchParams.entries());
+            const currentSearchParams = fromEntries(searchParams.entries());
             return isEqual(previousSearchParams, currentSearchParams) ? previousSearchParams : currentSearchParams;
         });
     };

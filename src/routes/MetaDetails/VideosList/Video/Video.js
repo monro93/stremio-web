@@ -28,11 +28,12 @@ const Video = ({ className, id, title, thumbnail, episode, released, upcoming, w
             event.preventDefault();
         }
     }, [toggleMenu]);
-    const popupLabelOnLongPress = React.useCallback((event) => {
-        if (event.nativeEvent.pointerType !== 'mouse' && !event.nativeEvent.togglePopupPrevented) {
-            toggleMenu();
-        }
-    }, [toggleMenu]);
+    const popupLabelOnLongPress = undefined
+//    const popupLabelOnLongPress = React.useCallback((event) => {
+//        if (event.nativeEvent.pointerType !== 'mouse' && !event.nativeEvent.togglePopupPrevented) {
+//            toggleMenu();
+//        }
+//    }, [toggleMenu]);
     const popupMenuOnPointerDown = React.useCallback((event) => {
         event.nativeEvent.togglePopupPrevented = true;
     }, []);
